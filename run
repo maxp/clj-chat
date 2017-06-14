@@ -1,0 +1,11 @@
+#!/bin/bash
+
+PRJ="cchat"
+
+java -jar ${PRJ}.jar var/prod.edn >>/var/log/www/${PRJ}-out.log 2>&1 &
+
+PID=$!
+echo $PID > .pid
+wait $PID
+
+#.

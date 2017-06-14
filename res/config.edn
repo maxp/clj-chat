@@ -1,0 +1,24 @@
+{
+  ;; base config
+
+  ;; jetty
+  ; :http {
+  ;   :host "127.0.0.1"
+  ;   :port 8033
+  ;   :join? false
+  ; }
+
+  ;; http=-kit
+  :http {
+    :ip "0.0.0.0"
+    :port 8800
+  }
+
+
+  :psql nil
+  ; :psql {
+  ;   :jdbc "jdbc:postgresql://localhost:5432/_database_"
+  ;   :user "username"
+  ;   :password "1"
+  ; }
+}

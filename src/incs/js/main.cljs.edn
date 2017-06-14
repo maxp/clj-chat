@@ -1,0 +1,5 @@
+{
+  :require [cchat.ui.core]
+  :init-fns [cchat.ui.core.run]
+  :compiler-options
+    {:asset-path "incs/js/main.out"}}

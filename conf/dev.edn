@@ -1,0 +1,32 @@
+
+{
+  :dev true
+
+  :psql nil
+
+  :user-db
+  [
+    {
+      :id "user0"
+      :login "test"
+      ;; bcrypt "1"
+      :passhash "$2a$10$HHvfla9GAWRw9yMmJ5uXVeyEw7cOFpA3BfeorJd5vxjWzSNyx7R0y"
+    }
+
+    :test1
+    {
+      :id "user1"
+      :login "test1"
+      ;; bcrypt "1"
+      :passhash "$2a$10$5B987euRwK0gQbeSo45SfOMqFIkmP3yxrqw3IaKhAi20pmOVh1UJW"
+    }
+
+    :test2
+    {
+      :id "user2"
+      :login "test2"
+      ;; bcrypt "2"
+      :passhash "$2a$10$i1Ae7bK7NbdzQdoas0KW..lwD7kkfBAmlErhYbYBDHSoWGQuyerl2"
+    }
+  ]
+}
