@@ -26,7 +26,13 @@
           :bottom "14px"
           :overflow-y "scroll"
           :background-color "#f4f4f4"
-          :border-radius "2px"}]]
+          :border-radius "2px"}
+        [:.nick
+          { :font-weight "bold"
+            :color "#888"}]
+        [:.text
+          { :color "#000"
+            :margin "0 4px 4px 6px"}]]]
     ;
     [:.b-ctrl
       {

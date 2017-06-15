@@ -21,7 +21,11 @@
 
 (defn render-chat []
   [:div.chat-pane
-    "chat-pane"])
+    (for [msg @*chat]
+      ^{:key (:id msg)}
+      [:div.msg
+        [:div.nick (:nick msg)]
+        [:div.text (:text msg)]])])
 ;
 
 (defn render-ctrl []

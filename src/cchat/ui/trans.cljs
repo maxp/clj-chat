@@ -1,14 +1,18 @@
 
 (ns cchat.ui.trans
-  (:require-macros
-    [cljs.core.async.macros :as asyncm :refer [go go-loop]])
+  ; (:require-macros
+  ;   [cljs.core.async.macros :as asyncm :refer [go go-loop]])
   ;
   (:require
     [cljs.core.async :as async :refer [<! >! put! chan]]
-    [taoensso.sente :refer [make-channel-socket! cb-success?]]
+    [taoensso.sente :refer
+        [make-channel-socket! start-client-chsk-router! cb-success?]]
     ;
     [cchat.ui.state :refer [*nick *text *chat]]))
 ;
+
+(enable-console-print!)
+
 
 ;; NOTE: duplicated constant in app/routes.clj
 (def WS_CHAT_URI "/_ws_chat")
@@ -25,11 +29,28 @@
 ;
 
 
+
 (defn send-text [nick text]
   (.log js/console "send-text:" nick text)
   (chsk-send! [:trans/chat {:nick nick :text text}]))
-
 ;
+
+(defonce *msg-id (atom 0))
+
+
+(defn recv-msg [data]
+  (when (= :chsk/recv (:id data))
+    ; (prn "ed:" (:event data))
+    (swap! *chat conj
+      (assoc
+        (get-in data [:event 1 1])
+        :id
+        (swap! *msg-id inc)))))
+;
+
+(defonce router
+  (start-client-chsk-router! ch-chsk recv-msg))
+
 
 
 ; (chsk-send! ; Using Sente

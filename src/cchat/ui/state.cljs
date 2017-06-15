@@ -6,6 +6,6 @@
 
 (defonce *nick (r/atom nil))
 (defonce *text (r/atom nil))
-(defonce *chat (r/atom nil))
+(defonce *chat (r/atom []))
 
 ;;.
