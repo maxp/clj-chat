@@ -7,7 +7,7 @@
     [garden.selectors :refer [>]]
     [garden.stylesheet :refer [at-media]]
     ;
-    [css.frame :refer [frame-styles main-pane]]))
+    [css.frame :refer [frame-styles]]))
 ;
 
 (def p100 "100%")
@@ -82,7 +82,22 @@
       { :color "#a00"
         :font-weight "bold"}]
 
-    [:.wh100 {:width "100vw" :height "100vh"}]])
+    [:.wh100 {:width "100vw" :height "100vh"}]
+
+    [:.v-flex
+      { :display "flex"
+        :width "100%"
+        :height "100%"
+        :flex-direction "column"}]
+        ;:flex-wrap
+
+    [:.app-root
+      { :width  "100vw" 
+        :height "100vh"}
+      [:.loading
+        { :position "absolute"
+          :top  "14px"
+          :left "20px"}]]])
 ;
 
 (def margins
@@ -98,83 +113,6 @@
     [:.marr-8 {:margin-right "8px"}]])
 ;
 
-; (def topbar
-;   [
-;     [:.b-topbar
-;       { :margin-bottom (px 4)
-;         :border-bottom (str "1px solid " c_topbar_brd)}
-;
-;       [:.logo
-;         { :margin "4px 4px 3px 4px"}]
-;
-;       [:.b-search
-;         {:margin "12px 0"}]
-;
-;       [:.b-signin
-;         { :margin "15px 2px 15px 8px"
-;           :text-align 'right}]
-;
-;       [:.b-user
-;         { :text-align 'right
-;           :margin "11px 2px 12px 8px"
-;           :overflow 'hidden
-;           :white-space 'nowrap}]
-;
-;
-;         ; [:.upic
-;         ;   { :display 'block
-;         ;     :float 'right
-;         ;     :width (px 40)
-;         ;     :height (px 40)
-;         ;     :border-radius "10px"
-;         ;     :background "#f4f4f4"}]
-;
-;       (at-media {:max-width (px 768)}
-;         [:.b-search {:margin "4px 0"}]
-;         [:.b-signin {:margin "2px 0 12px 8px"}]
-;         [:.b-user   {:margin "2px 0 12px 8px"}])
-;
-;       (at-media {:max-width (px 360)}
-;         [:.logo {:margin-left "-10px"}])]
-;
-;     ;;;
-;
-;     [:.b-topnav
-;       { :font-size "1.6rem"
-;         :letter-spacing "0.1rem"
-;         :padding-bottom "4px"
-;         :border-bottom (str "1px solid " c_topbar_brd)
-;         ; :border-bottom "1px solid #def"
-;         :margin-bottom "10px"}
-;       ;
-;       [:.nav
-;         [:li [:a {:padding "5px 10px" :color "#47c"}]]
-;         [:li.active [:a {:background-color "#eaeaea"}]]
-;         [:li.active [:a:hover {:color "#6bf"}]]]]])
-;
-
-;;; ;;; ;;; ;;;
-
-(def botnav
-  [:.b-botnav {:text-align 'center :margin "16px auto 8px auto"}])
-;
-
-(def footer
-  [:.b-footer
-    (merge
-      (brd1 :top c_topbar_brd)
-      { :margin-top (px 8)
-        :padding "1px 0 0 0"})
-
-    [:.footer-bg
-      { :padding "1.3ex 2.4ex 1.4ex 2.4ex"
-        :background-color "#f4f4f4"
-        :border-bottom-left-radius "4px"
-        :border-bottom-right-radius "4px"}
-      [:.copy
-        {:color "#777"}
-        [:.brand {:margin-left "2 px" :margin-right "1px"}]]]])
-;
 
 
 (def content
@@ -190,13 +128,7 @@
   commons
   margins
 
-  frame-styles
-  main-pane
-  
-  content
-
-  botnav
-  footer)
+  frame-styles)
 ;
 
 ;;.

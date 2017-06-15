@@ -4,9 +4,9 @@
 
 (def project {:name "clj-chat" :version "0.0.1"})
 
-(def jar-main 'cchat.main)
-(def jar-file "cchat.jar")
-
+(def jar-main   'cchat.main)
+(def jar-file   "cchat.jar")
+(def cljs-main  'cchat.ui.core/run)
 
 (set-env!
   :resource-paths #{"res"}
@@ -19,7 +19,7 @@
     [org.clojure/clojure "1.8.0"]
     [org.clojure/clojurescript "1.9.562"]
     [org.clojure/core.async "0.3.443"]
-    
+
     ; [org.clojure/core.cache "0.6.4"]
 
     [org.clojure/tools.logging "0.4.0"]
@@ -35,6 +35,7 @@
     [ring/ring-headers "0.3.0"]
     ; [ring/ring-jetty-adapter "1.6.1"]
     [http-kit "2.2.0"]
+    [javax.servlet/servlet-api "2.5"]   ;; required by multipart_params
 
     [cheshire "5.7.1"]
     [compojure "1.6.0"]
@@ -173,8 +174,7 @@
     :asset-paths #{"res/public"})
   (comp
     (watch)
-    (reload
-          :on-jsload 'fv.core/run)
+    (reload :on-jsload cljs-main)
     ; (cljs-repl)
     (cljs
           :source-map true

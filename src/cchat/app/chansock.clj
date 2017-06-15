@@ -1,11 +1,13 @@
 
 (ns cchat.app.chansock
   (:require
-    [clojure.core.async :refer [thread]]
+    [clojure.core.async :refer [thread <!! close!]]
     ;
     [mount.core :refer [defstate]]
     [taoensso.sente :refer [make-channel-socket!]]
-    [taoensso.sente.server-adapters.http-kit :refer [get-sch-adapter]]))
+    [taoensso.sente.server-adapters.http-kit :refer [get-sch-adapter]]
+    ;
+    [mlib.log :refer [debug]]))
 ;
 
 
@@ -22,18 +24,27 @@
 
 (defn start []
   (thread
-    (let {:keys ch-recv send-fn connected-uids} chsk
+    (let [{:keys [ch-recv send-fn connected-uids]} chsk]
       (prn "chsk:" chsk)
-      (while true
+      (loop []
         (when-let [event (<!! ch-recv)]
           (prn "event:" event)
-          (prn "uids:" @connected-uids))))))
-          ; (doseq [uid @connected-uids]
+          (prn "uids:" @connected-uids)
+          ; (doseq [uid (:any @connected-uids)]
           ;   (send-fn uid event)))))))
+          (recur)))
+      (debug "fanout loop stopped"))))
+;
+
+(defn stop []
+  (when-let [ch (:ch-recv chsk)]
+    (close! ch)))
 ;
 
 (defstate chat-handler
   :start
-    (start))
+    (start)
+  :stop
+    (stop chat-handler))
 
 ;;.
