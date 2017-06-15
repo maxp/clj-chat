@@ -16,7 +16,7 @@
 
 ;
 
-(def WS_CHAT_URI "_ws_chat")
+(def WS_CHAT_URI "/_ws_chat")
 
 
 (defn api-404 [req]

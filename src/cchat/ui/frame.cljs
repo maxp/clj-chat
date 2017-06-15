@@ -1,17 +1,20 @@
 
 (ns cchat.ui.frame
   (:require
-    [cchat.ui.state :refer [*nick *text *chat]]))
+    [clojure.string :refer [blank?]]
+    [cchat.ui.state :refer [*nick *text *chat]]
+    [cchat.ui.trans :refer [send-text]]))
 ;
 
 
-(defn send-text [evt]
+(defn on-submit [evt]
   (.preventDefault evt)
-
-  (.log js/console "send-text:" (clj->js @*nick) (clj->js @*text))
-
-  (reset! *text "")
-
+  (let [nick @*nick
+        text @*text]
+    (when-not (or (blank? nick) (blank? text))
+      (send-text nick text))
+    ;
+    (reset! *text ""))
   false)
 ;
 
@@ -24,7 +27,7 @@
 (defn render-ctrl []
   [:div.chat-pane
     [:div.container
-      [:form.form {:on-submit send-text}
+      [:form.form {:on-submit on-submit}
         [:div.col-sm-2
           [:input.form-control
             { :type "text"
@@ -43,7 +46,7 @@
 
         [:div.col-sm-2
           [:button.btn.btn-success.form-control
-            {:type "submit" :on-click send-text}
+            {:type "submit" :on-click on-submit}
             "send"]]]
       [:div.clearfix]]])
 ;

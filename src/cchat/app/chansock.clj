@@ -11,6 +11,10 @@
 ;
 
 
+(defn user-id-fn [params]
+  (:client-id params))
+;
+
 (comment
   ch-recv         ;; async/chan receive
   send-fn         ;; (fn [user-id event])
@@ -19,24 +23,26 @@
 
 (defstate chsk
   :start
-    (make-channel-socket! (get-sch-adapter) {}))
+    (make-channel-socket!
+      (get-sch-adapter)
+      {:user-id-fn user-id-fn}))
 ;
 
 (defn start []
   (thread
     (let [{:keys [ch-recv send-fn connected-uids]} chsk]
-      (prn "chsk:" chsk)
       (loop []
-        (when-let [event (<!! ch-recv)]
-          (prn "event:" event)
-          (prn "uids:" @connected-uids)
-          ; (doseq [uid (:any @connected-uids)]
-          ;   (send-fn uid event)))))))
+        (when-let [data (<!! ch-recv)]
+          (let [event (:event data)]
+            (when (= :trans/chat (first event))
+              (doseq [uid (:any @connected-uids)]
+                (prn "uid:" uid event)
+                (send-fn uid event))))
           (recur)))
       (debug "fanout loop stopped"))))
 ;
 
-(defn stop []
+(defn stop [_]
   (when-let [ch (:ch-recv chsk)]
     (close! ch)))
 ;
