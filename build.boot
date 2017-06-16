@@ -61,6 +61,11 @@
     [cljs-ajax "0.6.0"]
 
 
+    ;; protobuf
+
+    [org.flatland/protobuf "0.7.1"]
+
+
     ;; https://github.com/martinklepsch/boot-garden
     [org.martinklepsch/boot-garden "1.3.2-0" :scope "test"]
 
