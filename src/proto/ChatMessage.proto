@@ -1,0 +1,5 @@
+
+message ChatMessage {
+  required string nick = 1;
+  required string text = 2;
+}

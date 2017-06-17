@@ -7,7 +7,7 @@
     [taoensso.sente :refer [make-channel-socket!]]
     [taoensso.sente.server-adapters.http-kit :refer [get-sch-adapter]]
     ;
-    [mlib.log :refer [debug]]))
+    [mlib.log :refer [debug error]]))
 ;
 
 
@@ -34,10 +34,14 @@
       (loop []
         (when-let [data (<!! ch-recv)]
           (let [event (:event data)]
-            (when (= :trans/chat (first event))
-              (doseq [uid (:any @connected-uids)]
-                (prn "uid:" uid event)
-                (send-fn uid event))))
+            (condp = (first event)
+              ;:trans/chat
+              :trans/buff64
+                (doseq [uid (:any @connected-uids)]
+                  (prn "uid:" uid event)
+                  (send-fn uid event))
+              nil))
+              ;; (error "unexpected event:" event)))
           (recur)))
       (debug "fanout loop stopped"))))
 ;
